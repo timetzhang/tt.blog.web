@@ -6,11 +6,26 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'tt-appbar',
+  props:{
+      title:{
+          type:string,
+          default: 'App'
+      }
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted:{
+      
+  },
+  methods:{
+
+  },
+  watch:{
+
   }
 }
 </script>
