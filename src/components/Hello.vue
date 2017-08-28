@@ -1,12 +1,17 @@
 <template lang="jade">
   div
     span
-    
+    tt-appbar
 </template>
 
 <script>
+import appbar from "@/components/ttui/appbar/appbar"
+
 export default {
   name: 'hello',
+  components:{
+    "tt-appbar" : appbar
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App'

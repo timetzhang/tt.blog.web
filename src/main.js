@@ -4,12 +4,19 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+
 Vue.config.productionTip = false
+
+//Cookie API
+import Cookie from './common/cookie'
+Vue.prototype.$cookie = Cookie;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
 })
