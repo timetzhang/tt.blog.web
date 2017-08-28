@@ -17,18 +17,18 @@ export default {
 
         var days = Math.floor(span / (24 * 3600 * 1000));
         if (days > 0)
-            return days + " 天前";
+            return days + " days ago";
         var leave1 = span % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
         var hours = Math.floor(leave1 / (3600 * 1000));
         if (hours > 0)
-            return hours + " 小时前";
+            return hours + " hours ago";
         var leave2 = leave1 % (3600 * 1000); //计算小时数后剩余的毫秒数
         var minutes = Math.floor(leave2 / (60 * 1000));
         if (minutes > 0)
-            return minutes + " 分钟前";
+            return minutes + " minutes ago";
         var leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数
         var seconds = Math.round(leave3 / 1000);
         if (seconds > 0)
-            return seconds + " 秒前";
+            return seconds + " seconds ago";
     }
 }
