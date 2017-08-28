@@ -66,6 +66,9 @@ export default {
   watch: {
     "$route"() {
       this.category = this.$route.params.category;
+      if(this.isMobile){ //如果是移动端，关闭菜单
+        this.isMenuDisplay = false;
+      }
     }
   }
 }
@@ -179,7 +182,7 @@ $border-color:#d7d7d7;
     }
     &::-webkit-input-placeholder {
       font-family: Helvetica, sans-serif;
-      font-size:1.3em;
+      font-size: 1.3em;
       text-align: center;
       padding-top: 40px
     }
@@ -228,9 +231,15 @@ $border-color:#d7d7d7;
     width: calc(50% - 20px);
     margin: 10px;
   }
-}
-
-//mobile
+  .article-list {
+    .details {
+      .brief {
+        padding-top:1px !important;
+        -webkit-line-clamp: 3 !important;
+      }
+    }
+  }
+} //mobile
 @media screen and (min-width:1002px) {
   .container {
     width: 1002px;
@@ -246,12 +255,10 @@ $border-color:#d7d7d7;
     width: calc(20% - 20px);
     margin: 10px;
   }
-}
-
-//##article-list
+} //##article-list
 .article-list {
-  width: calc(100% - 40px);
-  padding: 20px 20px 17px 20px;
+  width: calc(100% - 10px);
+  padding: 10px 10px 4px 10px;
   background-color: $back-secondary-color;
   margin-bottom: 15px;
   display: inline-block;
@@ -260,41 +267,39 @@ $border-color:#d7d7d7;
     background-color: $hover-color;
     cursor: pointer;
   }
+  .name {
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 10px;
+  }
   .image {
-    width: 240px;
+    width: 35%;
     float: left;
     img {
-      width: 240px;
+      width: 100%;
     }
   }
   .details {
     float: left;
     margin-left: 10px;
-    width: calc(100% - 240px - 20px);
-    .name {
-      font-size: 0.9em;
-      font-weight: bold;
-    }
+    width: calc(100% - 35% - 10px);
     .brief {
-      padding-top: 1em;
+      padding-top:10px;
       font-size: 0.8em;
       line-height: 1.6em;
       min-height: 60px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 7;
       -webkit-box-orient: vertical;
     }
     .meta {
-      text-align: right;
       font-size: 0.7em;
       line-height: 1.6em;
       color: $secondary-color;
-      padding-top: 10px;
       div {
         display: inline;
-        margin-left: 10px;
       }
     }
   }
@@ -302,9 +307,7 @@ $border-color:#d7d7d7;
     content: " ";
     clear: both;
   }
-}
-
-//##article
+} //##article
 .article {
   background-color: $back-secondary-color;
   padding: 30px;

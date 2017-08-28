@@ -1,19 +1,19 @@
 <template lang="jade">
   div
     router-link.article-list(v-for="item in articles", :key="item.id", :to="'/article/id=' + item._id")
+      .name {{item.name}}
       .image
           img(:src="item.image")
       .details
-          .name {{item.name}}
-          .brief {{item.brief}}
           .meta
               div.time
                   i.icon.calendar
                   span {{item.time}}
+              span &nbsp;
               div.view_count
                   i.icon.hand.pointer
                   span {{item.view_count}}
-              div.comment_count {{item.comment_count}}
+          .brief {{item.brief}}
 </template>
 
 <script>
