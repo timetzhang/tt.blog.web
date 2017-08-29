@@ -2,7 +2,8 @@
   #app
       .appbar
         .container
-          img.logo(src="/static/img/logo.png")
+          router-link(to="/")
+            img.logo(:src="isMobile ? '/static/img/logo@2x.png' : '/static/img/logo.png'", :width="isMobile ? '200px' : '295px'")
           button.flat-button.right(@click="toggleMenu", v-if="isMobile")
             i.icon.content.fitted.large
       .container
@@ -66,7 +67,7 @@ export default {
   watch: {
     "$route"() {
       this.category = this.$route.params.category;
-      if(this.isMobile){ //如果是移动端，关闭菜单
+      if (this.isMobile) { //如果是移动端，关闭菜单
         this.isMenuDisplay = false;
       }
     }
@@ -75,12 +76,12 @@ export default {
 </script>
 
 <style lang="scss">
-$back-color: #f7f7f7;
+$back-color: #f0f0f0;
 $back-primary-color: #e7e7e7;
-$back-secondary-color: #fcfcfc;
+$back-secondary-color: #fefefe;
 $primay-color: #333333;
 $secondary-color: #999999;
-$hover-color: #d7d7d7;
+$hover-color: #e7e7e7;
 $border-color:#d7d7d7;
 
 #app {
@@ -88,7 +89,7 @@ $border-color:#d7d7d7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $back-color;
-  margin-top: 46px;
+  margin-top: 50px;
 }
 
 .center.aligned {
@@ -110,6 +111,7 @@ $border-color:#d7d7d7;
   top: 0;
   width: 100%;
   background-color: $back-primary-color;
+  z-index:100;
   .logo {
     float: left;
     padding: 10px;
@@ -192,7 +194,6 @@ $border-color:#d7d7d7;
 //MENU
 .menu {
   width: 100%;
-  background-color: $back-secondary-color;
   z-index: 100;
   transition: opacity 0.5s;
   .item {
@@ -202,7 +203,7 @@ $border-color:#d7d7d7;
     font-size: 0.8em;
     &:hover {
       cursor: pointer;
-      background-color: #ddd;
+      background-color: $hover-color;
     }
     &.active {
       background-color: $hover-color;
@@ -213,11 +214,11 @@ $border-color:#d7d7d7;
 // DIVIDER
 .divider {
   border-bottom: 1px solid $border-color;
-  margin: 0 10px;
+  margin: 0 5px;
 }
 
 // LAYOUT
-//desktop
+//mobile
 @media screen and (max-width:1002px) {
   .container {
     width: 100%;
@@ -227,19 +228,21 @@ $border-color:#d7d7d7;
     width: calc(100% - 20px);
     margin: 10px;
   }
-  .mobile-50 {
-    width: calc(50% - 20px);
-    margin: 10px;
-  }
   .article-list {
+    .image{
+      width: calc(100% - 30px) !important;
+      padding-bottom:10px;
+    }
     .details {
+      width: calc(100% - 20px) !important;
       .brief {
-        padding-top:1px !important;
         -webkit-line-clamp: 3 !important;
       }
     }
   }
-} //mobile
+}
+
+//desktop
 @media screen and (min-width:1002px) {
   .container {
     width: 1002px;
@@ -255,26 +258,25 @@ $border-color:#d7d7d7;
     width: calc(20% - 20px);
     margin: 10px;
   }
-} //##article-list
+}
+
+//##article-list
 .article-list {
-  width: calc(100% - 10px);
-  padding: 10px 10px 4px 10px;
-  background-color: $back-secondary-color;
-  margin-bottom: 15px;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 15px 0;
   display: inline-block;
+  background-color: $back-secondary-color;
   transition: background-color 0.5s;
   &:hover {
     background-color: $hover-color;
     cursor: pointer;
   }
-  .name {
-    font-size: 0.8em;
-    font-weight: bold;
-    padding: 10px;
-  }
   .image {
-    width: 35%;
+    position: relative;
+    width: 25%;
     float: left;
+    padding-left: 15px;
     img {
       width: 100%;
     }
@@ -282,25 +284,29 @@ $border-color:#d7d7d7;
   .details {
     float: left;
     margin-left: 10px;
-    width: calc(100% - 35% - 10px);
-    .brief {
-      padding-top:10px;
+    width: calc(100% - 25% - 30px);
+    .name {
+      width: calc(100% - 10px);
       font-size: 0.8em;
-      line-height: 1.6em;
-      min-height: 60px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 7;
-      -webkit-box-orient: vertical;
+      font-weight: bold;
     }
     .meta {
       font-size: 0.7em;
-      line-height: 1.6em;
+      line-height: 2.5em;
       color: $secondary-color;
       div {
         display: inline;
       }
+    }
+    .brief {
+      font-size: 0.8em;
+      line-height: 1.7em;
+      min-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
   }
   &:after {

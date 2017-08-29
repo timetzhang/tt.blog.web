@@ -106,6 +106,22 @@ export default {
             }
         );
     },
+    setArticle(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbUrl + '/setArticle';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
     newComment(obj, data) {
         return new Promise(
             function(resolve) {

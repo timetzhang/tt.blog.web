@@ -60,8 +60,12 @@ export default {
         let result = await this.$db.newComment(this, this.newComment);
         if(result.insertedCount > 0){
           this.getArticle();
+          this.clearInput();
         }
       }
+    },
+    clearInput(){
+      this.newComment = {};
     }
   },
   watch: {

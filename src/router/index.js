@@ -24,6 +24,11 @@ export default new Router({
             path: '/article/new',
             name: 'article-new',
             component: (resolve) => { require(['@/pages/article/new.vue'], resolve) }
+        },
+        {
+            path: '/article/edit/id=:id',
+            name: 'article-edit',
+            component: (resolve) => { require(['@/pages/article/edit.vue'], resolve) }
         }
     ]
 })

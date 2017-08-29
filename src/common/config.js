@@ -1,7 +1,6 @@
 // config.js
 
 export default {
-    dbUrl: 'http://localhost:8006',
-    //dbBaseUrl: 'http://localhost:8006',
-    title: 'CodeA - P8'
+    dbUrl: 'http://39.108.186.226:9000',
+    title: 'ZhangTT'
 };

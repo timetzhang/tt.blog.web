@@ -1,10 +1,10 @@
 <template lang="jade">
   div
     router-link.article-list(v-for="item in articles", :key="item.id", :to="'/article/id=' + item._id")
-      .name {{item.name}}
       .image
           img(:src="item.image")
       .details
+          .name {{item.name}}
           .meta
               div.time
                   i.icon.calendar
@@ -18,13 +18,15 @@
 
 <script>
 import Datetime from '@/common/datetime'
-
+import Browser from '@/common/browser'
 export default {
   name: 'hello',
   data() {
     return {
       articles: [],
-      category: this.$route.params.category
+      category: this.$route.params.category,
+
+      isMobile: Browser.mobile
     }
   },
   mounted: async function() {
