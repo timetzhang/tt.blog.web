@@ -7,11 +7,12 @@
           button.flat-button.right(@click="toggleMenu", v-if="isMobile")
             i.icon.content.fitted.large
       .container
-        div.trans.opacity(:class="isMobile ? 'mobile-100' : 'desktop-20'", v-if="isMenuDisplay")
+        div.trans.opacity(:class="isMobile ? 'mobile-100' : 'desktop-left'", v-if="isMenuDisplay")
           .menu(:style="'height:'+screenHeight+ 'px'")
             router-link.item(to="/", :class="$route.path == '/' ? 'active' : ''") 
               i.icon.tasks.large
               span.text Home
+            .divider
             router-link.item(to="/article/category=think", :class="category == 'think' ? 'active' : ''") 
               i.icon.cloud.large
               span.text Think
@@ -34,11 +35,28 @@
             router-link.item(to="/guestbook") 
               i.icon.book.large
               span.text Guestbook
+            .divider
             router-link.item(to="/about") 
               i.icon.question.large
               span.text About
-        div(:class="isMobile ? 'mobile-100' : isMenuDisplay ? 'desktop-80' : 'desktop-100'")
+        div(:class="isMobile ? 'mobile-100' : isMenuDisplay ? 'desktop-center' : ''")
           router-view
+        div.desktop-right(:class="isMobile ? 'mobile-100' : 'desktop-right'")
+          .recommend
+            .title 
+              i.icon.bullseye
+              span 热门推荐
+            router-link.item(v-for="item,index in top10Articles",:key="index", :to="'/article/id='+item._id",) 
+              span.index {{index+1}}
+              span.name {{item.name}}
+          .spacer
+          .keywords
+            .title 
+              i.icon.tags
+              span 热门标签
+            router-link.item(v-for="item,index in hotKeywords", :key="index",:to="'/article/keyword='+item.keyword", :class="currentKeyword == item.keyword ? 'active' : ''") 
+              i.icon(:class="item.icon")
+              span {{item.keyword}}
 </template>
 
 <script>
@@ -50,23 +68,38 @@ export default {
     return {
       isMenuDisplay: true,
       isMobile: Browser.mobile,
-      category: 'home'
+      category: 'home',
+      top10Articles: [],
+      hotKeywords: [],
+      currentKeyword: ''
     }
   },
   mounted: function() {
-    this.isMobile = Browser.mobile;
+    this.isMobile = Browser.mobile
     if (this.isMobile) {
-      this.isMenuDisplay = false;
+      this.isMenuDisplay = false
     }
+    this.getTop10Article();
+    this.getHotKeywords();
   },
   methods: {
     toggleMenu() {
       this.isMenuDisplay = !this.isMenuDisplay;
+    },
+    async getTop10Article() {
+      this.top10Articles = await this.$db.getTop10Article(this)
+    },
+    async getHotKeywords() {
+      this.hotKeywords = await this.$db.getHotKeywords(this)
     }
   },
   watch: {
     "$route"() {
-      this.category = this.$route.params.category;
+      if (this.$route.params.category)
+        this.category = this.$route.params.category;
+      if (this.$route.params.keyword)
+        this.currentKeyword = this.$route.params.keyword;
+
       if (this.isMobile) { //如果是移动端，关闭菜单
         this.isMenuDisplay = false;
       }
@@ -78,10 +111,10 @@ export default {
 <style lang="scss">
 $back-color: #f0f0f0;
 $back-primary-color: #e7e7e7;
-$back-secondary-color: #fefefe;
-$primay-color: #333333;
+$back-secondary-color: #fcfcfc;
+$primay-color: #444444;
 $secondary-color: #999999;
-$hover-color: #e7e7e7;
+$hover-color: #e0e0e0;
 $border-color:#d7d7d7;
 
 #app {
@@ -90,6 +123,13 @@ $border-color:#d7d7d7;
   -moz-osx-font-smoothing: grayscale;
   background-color: $back-color;
   margin-top: 50px;
+  color: $primay-color;
+  a,
+  a:link,
+  a:active,
+  a:visited {
+    color: $primay-color;
+  }
 }
 
 .center.aligned {
@@ -111,7 +151,7 @@ $border-color:#d7d7d7;
   top: 0;
   width: 100%;
   background-color: $back-primary-color;
-  z-index:100;
+  z-index: 100;
   .logo {
     float: left;
     padding: 10px;
@@ -191,11 +231,12 @@ $border-color:#d7d7d7;
   }
 }
 
-//MENU
+//##menu
 .menu {
   width: 100%;
   z-index: 100;
   transition: opacity 0.5s;
+  background-color: $back-secondary-color;
   .item {
     padding: 10px;
     transition: background-color 0.6s;
@@ -211,13 +252,17 @@ $border-color:#d7d7d7;
   }
 }
 
-// DIVIDER
+//##divider
 .divider {
-  border-bottom: 1px solid $border-color;
-  margin: 0 5px;
+  border-bottom: 1px dashed $border-color;
+  margin: 0 12px;
 }
 
-// LAYOUT
+.spacer {
+  height: 10px;
+}
+
+//##layout
 //mobile
 @media screen and (max-width:1002px) {
   .container {
@@ -229,9 +274,9 @@ $border-color:#d7d7d7;
     margin: 10px;
   }
   .article-list {
-    .image{
+    .image {
       width: calc(100% - 30px) !important;
-      padding-bottom:10px;
+      padding-bottom: 10px;
     }
     .details {
       width: calc(100% - 20px) !important;
@@ -245,18 +290,23 @@ $border-color:#d7d7d7;
 //desktop
 @media screen and (min-width:1002px) {
   .container {
-    width: 1002px;
+    width: 1100px;
     margin: auto;
   }
-  .desktop-80 {
+  .desktop-center {
     float: left;
-    width: calc(80% - 20px);
-    margin: 10px;
+    width: calc(60% - 10px);
+    margin: 5px;
   }
-  .desktop-20 {
+  .desktop-right {
     float: left;
-    width: calc(20% - 20px);
-    margin: 10px;
+    width: calc(27% - 10px);
+    margin: 5px;
+  }
+  .desktop-left {
+    float: left;
+    width: calc(13% - 10px);
+    margin: 5px;
   }
 }
 
@@ -313,7 +363,9 @@ $border-color:#d7d7d7;
     content: " ";
     clear: both;
   }
-} //##article
+}
+
+//##article
 .article {
   background-color: $back-secondary-color;
   padding: 30px;
@@ -373,6 +425,65 @@ $border-color:#d7d7d7;
     font-size: 0.9em;
     font-weight: bold;
     padding-bottom: 10px;
+  }
+}
+
+//##recommend
+.recommend {
+  background-color: $back-secondary-color;
+  .title {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 10px;
+    color: #777;
+  }
+  .item {
+    padding: 10px;
+    transition: background-color 0.5s;
+    display:block;
+    &:hover {
+      background-color: $hover-color;
+      cursor: pointer;
+    }
+    .index {
+      padding: 3px 7px;
+      margin-right: 10px;
+      font-size: 0.7em;
+      background-color: $back-primary-color;
+    }
+    .name {
+      font-size: 0.8em;
+    }
+  }
+}
+
+.keywords {
+  background-color: $back-secondary-color;
+  margin:0 auto;
+  .title {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 10px;
+    color: #777;
+  }
+  .item {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f0f0f0;
+    transition: background-color 0.5s;
+    font-size:0.8em;
+    margin-left:5px;
+    margin-top:5px;
+    &:last-child{
+      margin-bottom:5px;
+    }
+    &:hover {
+      background-color: $hover-color;
+      cursor: pointer;
+    }
+    &.active {
+      background-color: $back-primary-color;
+    }
   }
 }
 </style>

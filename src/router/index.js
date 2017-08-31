@@ -16,6 +16,11 @@ export default new Router({
             component: (resolve) => { require(['@/pages/home.vue'], resolve) }
         },
         {
+            path: '/article/keyword=:keyword',
+            name: 'article-keyword',
+            component: (resolve) => { require(['@/pages/home.vue'], resolve) }
+        },
+        {
             path: '/article/id=:id',
             name: 'article-details',
             component: (resolve) => { require(['@/pages/article/details.vue'], resolve) }

@@ -7,12 +7,15 @@
     br
     textarea(v-model="article.brief", placeholder="Brief", rows="4", style="width:97%")
     br
+    input(v-model="article.keywords",placeholder="Keywords", style="width:98%")
+    br
     select(name="category", style="margin-top:10px", v-model="article.category")
       option(value="think") Think
       option(value="science") Science
       option(value="music") Music
       option(value="code") Code
       option(value="design") Design
+      option(value="misc") Misc
     br
     br
     ueditor(@ready="editorReady")
@@ -37,7 +40,7 @@ export default {
   },
   created: async function() {
     this.article = (await this.$db.getArticleDetails(this, { id: this.$route.params.id })).details
-    console.log( this.article)
+    this.article.keywords = this.article.keywords.join(',')
   },
   methods: {
     editorReady(editorInstance) {
@@ -48,6 +51,12 @@ export default {
     },
     async submit() {
       if (this.article.name && this.article.brief && this.article.details && this.article.category) {
+        var keywords = new Array()
+        this.article.keywords.split(',').forEach(function(element) {
+          keywords.push(element.trim())
+        }, this)
+        this.article.keywords = keywords
+
         let result = await this.$db.setArticle(this, this.article)
         if (parseInt(result.insertedCount) > 0) {
           this.$router.push('/')

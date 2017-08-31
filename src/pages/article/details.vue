@@ -34,13 +34,13 @@ export default {
   name: 'article-details',
   data() {
     return {
-      article: {details:{}, comments:[]},
+      article: { details: {}, comments: [] },
       newComment: {
         username: '',
-        email:'',
+        email: '',
         details: '',
         id: this.$route.params.id
-      }, 
+      },
     }
   },
   created: function() {
@@ -54,21 +54,24 @@ export default {
         element.time = Datetime.getTimespan(element.time)
       }, this);
     },
-    async submit(){
-      if(this.newComment.username && this.newComment.email && this.newComment.details){
-        
+    async submit() {
+      if (this.newComment.username && this.newComment.email && this.newComment.details) {
+
         let result = await this.$db.newComment(this, this.newComment);
-        if(result.insertedCount > 0){
+        if (result.insertedCount > 0) {
           this.getArticle();
           this.clearInput();
         }
       }
     },
-    clearInput(){
+    clearInput() {
       this.newComment = {};
     }
   },
   watch: {
+    async '$route'() {
+      this.getArticle();
+    }
   }
 }
 </script>

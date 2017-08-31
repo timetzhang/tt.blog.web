@@ -25,7 +25,7 @@ export default {
     return {
       articles: [],
       category: this.$route.params.category,
-
+      keyword: this.$route.params.keyword,
       isMobile: Browser.mobile
     }
   },
@@ -35,7 +35,15 @@ export default {
   methods: {
     async getArticle() {
       // load db
-      this.articles = await this.$db.getArticle(this, { category: this.category });
+      if (!this.$route.params.category && !this.$route.params.keyword) {
+        this.articles = await this.$db.getArticle(this, {});
+      }
+      if (this.$route.params.category) {
+        this.articles = await this.$db.getArticle(this, { category: this.category })
+      }
+      if (this.$route.params.keyword) {
+        this.articles = await this.$db.getArticle(this, { keyword: this.keyword })
+      }
       // format the date
       this.articles.forEach(function(element) {
         element.time = Datetime.dateFormat(element.time)
@@ -44,7 +52,11 @@ export default {
   },
   watch: {
     async '$route'() {
-      this.category = this.$route.params.category;
+      if (this.$route.params.category)
+        this.category = this.$route.params.category
+      if (this.$route.params.keyword)
+        this.keyword = this.$route.params.keyword
+      
       this.getArticle();
     }
   }

@@ -68,6 +68,35 @@ export default {
                 if (options.category) {
                     dbUrl += "/?category=" + options.category
                 }
+                if (options.keyword) {
+                    dbUrl += "/?keyword=" + options.keyword
+                }
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getTop10Article(obj, options) {
+        return new Promise(
+            function(resolve) {
+                let dbUrl = Config.dbUrl + '/getTop10Article';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getHotKeywords(obj, options) {
+        return new Promise(
+            function(resolve) {
+                let dbUrl = Config.dbUrl + '/getHotKeywords';
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
