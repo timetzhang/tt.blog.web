@@ -32,6 +32,10 @@
             i.icon.coffee.large
             span.text Misc
           .divider
+          router-link.item(to="/library") 
+            i.icon.book.large
+            span.text Library
+          .divider
           router-link.item(to="/about") 
             i.icon.question.large
             span.text About
@@ -118,13 +122,7 @@ export default {
 </script>
 
 <style lang="scss">
-$back-color: #f0f0f0;
-$back-primary-color: #e7e7e7;
-$back-secondary-color: #fcfcfc;
-$primay-color: #444444;
-$secondary-color: #999999;
-$hover-color: #e0e0e0;
-$border-color:#d7d7d7;
+@import "./common/config.scss";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -282,7 +280,7 @@ $border-color:#d7d7d7;
     width: calc(100% - 20px);
     margin: 10px;
   }
-  .article-list {
+  .list {
     .image {
       width: calc(100% - 30px) !important;
       padding-bottom: 10px;
@@ -320,7 +318,7 @@ $border-color:#d7d7d7;
 }
 
 //##article-list
-.article-list {
+.list {
   width: 100%;
   margin-bottom: 5px;
   padding: 15px 0;
@@ -350,7 +348,7 @@ $border-color:#d7d7d7;
       font-weight: bold;
     }
     .meta {
-      font-size: 0.7em;
+      font-size: 0.75em;
       line-height: 2.5em;
       color: $secondary-color;
       div {
@@ -360,7 +358,6 @@ $border-color:#d7d7d7;
     .brief {
       font-size: 0.8em;
       line-height: 1.7em;
-      min-height: 60px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -371,69 +368,6 @@ $border-color:#d7d7d7;
   &:after {
     content: " ";
     clear: both;
-  }
-}
-
-//##article
-.article {
-  background-color: $back-secondary-color;
-  padding: 30px;
-  .name {
-    line-height: 2.4em;
-    font-size: 1.3em;
-    font-weight: bold;
-    text-align: center;
-  }
-  .time {
-    color: $secondary-color;
-    font-size: 0.7em;
-    text-align: center;
-    padding: 15px 0;
-  }
-  .details {
-    line-height: 1.5em;
-    font-size: 0.9em;
-  }
-}
-
-.comment {
-  background-color: $back-secondary-color;
-  padding: 30px;
-  .name:not(first-child) {
-    padding-top: 10px;
-  }
-  .name {
-    font-size: 0.8em;
-    display: inline-block;
-  }
-  .time {
-    color: $secondary-color;
-    font-size: 0.7em;
-    padding-left: 10px;
-    display: inline-block;
-  }
-  .details {
-    font-size: 0.9em;
-    padding: 10px 0;
-    border-bottom: 1px solid $border-color;
-  }
-  .details:last-child {
-    border-bottom: none;
-  }
-  .header {
-    font-size: 0.9em;
-    font-weight: bold;
-    padding-bottom: 10px;
-  }
-}
-
-.reply {
-  background-color: $back-secondary-color;
-  padding: 30px;
-  .header {
-    font-size: 0.9em;
-    font-weight: bold;
-    padding-bottom: 10px;
   }
 }
 
@@ -494,5 +428,12 @@ $border-color:#d7d7d7;
       background-color: $back-primary-color;
     }
   }
+}
+
+//##paper
+.paper{
+  background-color: $back-secondary-color;
+  padding:10px;
+  margin-bottom:10px;
 }
 </style>

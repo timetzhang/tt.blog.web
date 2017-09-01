@@ -77,5 +77,67 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../common/config.scss";
 
+.article {
+  background-color: $back-secondary-color;
+  padding: 30px;
+  .name {
+    line-height: 2.4em;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+  }
+  .time {
+    color: $secondary-color;
+    font-size: 0.7em;
+    text-align: center;
+    padding: 15px 0;
+  }
+  .details {
+    line-height: 1.5em;
+    font-size: 0.9em;
+  }
+}
+
+.comment {
+  background-color: $back-secondary-color;
+  padding: 30px;
+  .name:not(first-child) {
+    padding-top: 10px;
+  }
+  .name {
+    font-size: 0.8em;
+    display: inline-block;
+  }
+  .time {
+    color: $secondary-color;
+    font-size: 0.7em;
+    padding-left: 10px;
+    display: inline-block;
+  }
+  .details {
+    font-size: 0.9em;
+    padding: 10px 0;
+    border-bottom: 1px solid $border-color;
+  }
+  .details:last-child {
+    border-bottom: none;
+  }
+  .header {
+    font-size: 0.9em;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+}
+
+.reply {
+  background-color: $back-secondary-color;
+  padding: 30px;
+  .header {
+    font-size: 0.9em;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+}
 </style>

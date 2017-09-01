@@ -1,19 +1,19 @@
 <template lang="jade">
   div
-    router-link.article-list(v-for="item in articles", :key="item.id", :to="'/article/id=' + item._id")
+    router-link.article.list(v-for="item in articles", :key="item.id", :to="'/article/id=' + item._id")
       .image
-          img(:src="item.image")
+        img(:src="item.image")
       .details
-          .name {{item.name}}
-          .meta
-              div.time
-                  i.icon.calendar
-                  span {{item.time}}
-              span &nbsp;
-              div.view_count
-                  i.icon.hand.pointer
-                  span {{item.view_count}}
-          .brief {{item.brief}}
+        .name {{item.name}}
+        .meta
+            div.time
+                i.icon.calendar
+                span {{item.time}}
+            span &nbsp;
+            div.view_count
+                i.icon.hand.pointer
+                span {{item.view_count}}
+        .brief {{item.brief}}
     .center.aligned
       button.flat-button(@click="getMoreArticle", style="margin-bottom: 20px") {{loadingMoreText}}
 </template>
@@ -98,5 +98,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.article{
+  .image{
+    width: 25%;
+  }
+  .details{
+    width: calc(100% - 25% - 30px);
+  }
+}
 </style>

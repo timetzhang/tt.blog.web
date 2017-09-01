@@ -7,56 +7,6 @@
 import Config from '@/common/config'
 
 export default {
-    /*------------------------------------------------------------------------------------------------------*/
-    /*--- ##FILE -----------------------------------------------------------------------------------------*/
-    /*------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * 上传文件到 /uploaded
-     * 上传时触发事件 "uploadProgress" 0-100 上传完成度
-     * @param {*} obj 为this
-     * @param {*} blob 为文件
-     */
-    // fileUpload(obj, blob) {
-    //     return new Promise(
-    //         function(resolve) {
-    //             var dbUrl = Config.dbBaseUrl + '/fileUpload';
-
-    //             var formData = new FormData();
-    //             formData.append("image", blob, "head.jpg");
-    //             obj.$http.post(dbUrl, formData, {
-    //                 progress(event) {
-    //                     //上传时触发事件 uploadProgress
-    //                     //0-100
-    //                     obj.$emit('uploadProgress', parseFloat(event.loaded / event.total * 100), true)
-    //                 }
-    //             }).then(res => {
-    //                 resolve(res.data);
-    //             });
-    //         }
-    //     );
-    // },
-
-    // deleteFile(obj, data) {
-    //     return new Promise(
-    //         function(resolve) {
-    //             var dbUrl = Config.dbBaseUrl + '/deleteFile';
-    //             obj.$http.post(dbUrl, { data: data }, {
-    //                 headers: {
-    //                     'Content-Type': 'application/x-www-form-urlencoded'
-    //                 },
-    //                 emulateJSON: true
-    //             }).then(res => {
-    //                 resolve(res.data);
-    //             });
-    //         }
-    //     );
-    // },
-
-    /*------------------------------------------------------------------------------------------------------*/
-    /*--- ##HOME -----------------------------------------------------------------------------------------*/
-    /*------------------------------------------------------------------------------------------------------*/
-
     /**
      * 获取课程的大主题（如软件开发，硬件开发等）
      * @param {*} obj 为this
@@ -64,7 +14,7 @@ export default {
     getArticle(obj, options) {
         return new Promise(
             function(resolve) {
-                let dbUrl = Config.dbUrl + '/getArticle/?pagenum=' + options.pagenum + '&pagesize=' + options.pagesize;
+                let dbUrl = Config.dbUrl + '/blog/getArticle/?pagenum=' + options.pagenum + '&pagesize=' + options.pagesize;
                 if (options.category) {
                     dbUrl += "&category=" + options.category
                 }
@@ -83,7 +33,7 @@ export default {
     getTop10Article(obj, options) {
         return new Promise(
             function(resolve) {
-                let dbUrl = Config.dbUrl + '/getTop10Article';
+                let dbUrl = Config.dbUrl + '/blog/getTop10Article';
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -96,7 +46,7 @@ export default {
     getHotKeywords(obj, options) {
         return new Promise(
             function(resolve) {
-                let dbUrl = Config.dbUrl + '/getHotKeywords';
+                let dbUrl = Config.dbUrl + '/blog/getHotKeywords';
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -109,7 +59,7 @@ export default {
     getArticleDetails(obj, options) {
         return new Promise(
             function(resolve) {
-                let dbUrl = Config.dbUrl + '/getArticleDetails/?id=' + options.id;
+                let dbUrl = Config.dbUrl + '/blog/getArticleDetails/?id=' + options.id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -122,7 +72,7 @@ export default {
     newArticle(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbUrl + '/newArticle';
+                var dbUrl = Config.dbUrl + '/blog/newArticle';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -138,7 +88,7 @@ export default {
     setArticle(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbUrl + '/setArticle';
+                var dbUrl = Config.dbUrl + '/blog/setArticle';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -154,7 +104,7 @@ export default {
     newComment(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbUrl + '/newComment';
+                var dbUrl = Config.dbUrl + '/blog/newComment';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -167,6 +117,42 @@ export default {
             }
         );
     },
+
+    /**
+     * ##BOOK
+     */
+    searchBook(obj, options) {
+        return new Promise(
+            function(resolve) {
+                let dbUrl = Config.dbUrl + '/book/searchBook?pagesize=' + options.pagesize +
+                    '&pagenum=' + options.pagenum +
+                    '&search=' + options.search;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    newBook(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbUrl + '/book/newBook';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
     // getHomeList(obj) {
     //     return new Promise(
     //         function(resolve) {

@@ -36,6 +36,16 @@ export default new Router({
             component: (resolve) => { require(['@/pages/article/edit.vue'], resolve) }
         },
         {
+            path: '/library',
+            name: 'library',
+            component: (resolve) => { require(['@/pages/library/library.vue'], resolve) }
+        },
+        {
+            path: '/library/new',
+            name: 'new-book',
+            component: (resolve) => { require(['@/pages/library/new.vue'], resolve) }
+        },
+        {
             path: '/about',
             name: 'about',
             component: (resolve) => { require(['@/pages/about.vue'], resolve) }
