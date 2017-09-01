@@ -32,10 +32,6 @@
             i.icon.coffee.large
             span.text Misc
           .divider
-          router-link.item(to="/guestbook") 
-            i.icon.book.large
-            span.text Guestbook
-          .divider
           router-link.item(to="/about") 
             i.icon.question.large
             span.text About

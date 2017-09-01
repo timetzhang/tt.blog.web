@@ -23,7 +23,7 @@ import Datetime from '@/common/datetime'
 import Browser from '@/common/browser'
 
 export default {
-  name: 'hello',
+  name: 'home',
   data() {
     return {
       articles: [],
