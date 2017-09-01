@@ -14,11 +14,14 @@
                   i.icon.hand.pointer
                   span {{item.view_count}}
           .brief {{item.brief}}
+    .center.aligned
+      button.flat-button(@click="getMoreArticle", style="margin-bottom: 20px") {{loadingMoreText}}
 </template>
 
 <script>
 import Datetime from '@/common/datetime'
 import Browser from '@/common/browser'
+
 export default {
   name: 'hello',
   data() {
@@ -26,7 +29,12 @@ export default {
       articles: [],
       category: this.$route.params.category,
       keyword: this.$route.params.keyword,
-      isMobile: Browser.mobile
+      isMobile: Browser.mobile,
+      currentPage: 0,
+      pageSize: 10,
+
+      //loading
+      loadingMoreText: '点击载入更多'
     }
   },
   mounted: async function() {
@@ -35,29 +43,55 @@ export default {
   methods: {
     async getArticle() {
       // load db
+      let data = [];
       if (!this.$route.params.category && !this.$route.params.keyword) {
-        this.articles = await this.$db.getArticle(this, {});
+        data = await this.$db.getArticle(this, {
+          pagenum: this.currentPage,
+          pagesize: this.pageSize
+        });
       }
       if (this.$route.params.category) {
-        this.articles = await this.$db.getArticle(this, { category: this.category })
+        data = await this.$db.getArticle(this, {
+          category: this.category,
+          pagenum: this.currentPage,
+          pagesize: this.pageSize
+        })
       }
       if (this.$route.params.keyword) {
-        this.articles = await this.$db.getArticle(this, { keyword: this.keyword })
+        data = await this.$db.getArticle(this, {
+          keyword: this.keyword,
+          pagenum: this.currentPage,
+          pagesize: this.pageSize
+        })
       }
-      // format the date
-      this.articles.forEach(function(element) {
-        element.time = Datetime.dateFormat(element.time)
-      }, this);
+
+      if (data.length <= 0) {
+        this.loadingMoreText = '没有更多了'
+      }
+      else {
+        // format the date and push
+        data.forEach(function(element) {
+          element.time = Datetime.dateFormat(element.time)
+          this.articles.push(element);
+        }, this);
+      }
+    },
+    getMoreArticle() {
+      this.currentPage++;
+      this.getArticle();
+    },
+    resetArticle() {
+      this.articles = []
+      this.currentPage = 0
+      this.loadingMoreText = '点击载入更多'
     }
   },
   watch: {
     async '$route'() {
-      if (this.$route.params.category)
-        this.category = this.$route.params.category
-      if (this.$route.params.keyword)
-        this.keyword = this.$route.params.keyword
-      
-      this.getArticle();
+      this.category = this.$route.params.category
+      this.keyword = this.$route.params.keyword
+      this.resetArticle()
+      this.getArticle()
     }
   }
 }

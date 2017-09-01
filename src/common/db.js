@@ -64,12 +64,12 @@ export default {
     getArticle(obj, options) {
         return new Promise(
             function(resolve) {
-                let dbUrl = Config.dbUrl + '/getArticle';
+                let dbUrl = Config.dbUrl + '/getArticle/?pagenum=' + options.pagenum + '&pagesize=' + options.pagesize;
                 if (options.category) {
-                    dbUrl += "/?category=" + options.category
+                    dbUrl += "&category=" + options.category
                 }
                 if (options.keyword) {
-                    dbUrl += "/?keyword=" + options.keyword
+                    dbUrl += "&keyword=" + options.keyword
                 }
                 obj.$http({
                     url: dbUrl,

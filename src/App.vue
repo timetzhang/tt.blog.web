@@ -1,72 +1,77 @@
 <template lang="jade">
   #app
-      .appbar
-        .container
-          router-link(to="/")
-            img.logo(:src="isMobile ? '/static/img/logo@2x.png' : '/static/img/logo.png'", :width="isMobile ? '200px' : '295px'")
-          button.flat-button.right(@click="toggleMenu", v-if="isMobile")
-            i.icon.content.fitted.large
+    .appbar
       .container
-        div.trans.opacity(:class="isMobile ? 'mobile-100' : 'desktop-left'", v-if="isMenuDisplay")
-          .menu(:style="'height:'+screenHeight+ 'px'")
-            router-link.item(to="/", :class="$route.path == '/' ? 'active' : ''") 
-              i.icon.tasks.large
-              span.text Home
-            .divider
-            router-link.item(to="/article/category=think", :class="category == 'think' ? 'active' : ''") 
-              i.icon.cloud.large
-              span.text Think
-            router-link.item(to="/article/category=science", :class="category == 'science' ? 'active' : ''") 
-              i.icon.lab.large
-              span.text Science
-            router-link.item(to="/article/category=music", :class="category == 'music' ? 'active' : ''")  
-              i.icon.music.large
-              span.text Music
-            router-link.item(to="/article/category=code", :class="category == 'code' ? 'active' : ''")  
-              i.icon.laptop.large
-              span.text Code
-            router-link.item(to="/article/category=design", :class="category == 'design' ? 'active' : ''") 
-              i.icon.magnet.large
-              span.text Design
-            router-link.item(to="/article/category=misc", :class="category == 'misc' ? 'active' : ''") 
-              i.icon.coffee.large
-              span.text Misc
-            .divider
-            router-link.item(to="/guestbook") 
-              i.icon.book.large
-              span.text Guestbook
-            .divider
-            router-link.item(to="/about") 
-              i.icon.question.large
-              span.text About
-        div(:class="isMobile ? 'mobile-100' : isMenuDisplay ? 'desktop-center' : ''")
-          router-view
-        div.desktop-right(:class="isMobile ? 'mobile-100' : 'desktop-right'")
-          .recommend
-            .title 
-              i.icon.bullseye
-              span 热门推荐
-            router-link.item(v-for="item,index in top10Articles",:key="index", :to="'/article/id='+item._id",) 
-              span.index {{index+1}}
-              span.name {{item.name}}
-          .spacer
-          .keywords
-            .title 
-              i.icon.tags
-              span 热门标签
-            router-link.item(v-for="item,index in hotKeywords", :key="index",:to="'/article/keyword='+item.keyword", :class="currentKeyword == item.keyword ? 'active' : ''") 
-              i.icon(:class="item.icon")
-              span {{item.keyword}}
+        router-link(to="/")
+          img.logo(:src="isMobile ? '/static/img/logo@2x.png' : '/static/img/logo.png'", :width="isMobile ? '200px' : '295px'")
+        button.flat-button.right(@click="toggleMenu", v-if="isMobile")
+          i.icon.content.fitted.large
+    .container
+      div.trans.opacity(:class="isMobile ? 'mobile-100' : 'desktop-left'", v-if="isMenuDisplay")
+        .menu(:style="'height:'+screenHeight+ 'px'")
+          router-link.item(to="/", :class="$route.path == '/' ? 'active' : ''") 
+            i.icon.tasks.large
+            span.text Home
+          .divider
+          router-link.item(to="/article/category=think", :class="category == 'think' ? 'active' : ''") 
+            i.icon.cloud.large
+            span.text Think
+          router-link.item(to="/article/category=science", :class="category == 'science' ? 'active' : ''") 
+            i.icon.lab.large
+            span.text Science
+          router-link.item(to="/article/category=music", :class="category == 'music' ? 'active' : ''")  
+            i.icon.music.large
+            span.text Music
+          router-link.item(to="/article/category=code", :class="category == 'code' ? 'active' : ''")  
+            i.icon.laptop.large
+            span.text Code
+          router-link.item(to="/article/category=design", :class="category == 'design' ? 'active' : ''") 
+            i.icon.magnet.large
+            span.text Design
+          router-link.item(to="/article/category=misc", :class="category == 'misc' ? 'active' : ''") 
+            i.icon.coffee.large
+            span.text Misc
+          .divider
+          router-link.item(to="/guestbook") 
+            i.icon.book.large
+            span.text Guestbook
+          .divider
+          router-link.item(to="/about") 
+            i.icon.question.large
+            span.text About
+      div(:class="isMobile ? 'mobile-100' : isMenuDisplay ? 'desktop-center' : ''")
+        router-view
+      div.desktop-right(:class="isMobile ? 'mobile-100' : 'desktop-right'")
+        .recommend
+          .title 
+            i.icon.bullseye
+            span 热门推荐
+          router-link.item(v-for="item,index in top10Articles",:key="index", :to="'/article/id='+item._id",) 
+            span.index {{index+1}}
+            span.name {{item.name}}
+        .spacer
+        .keywords
+          .title 
+            i.icon.tags
+            span 热门标签
+          router-link.item(v-for="item,index in hotKeywords", :key="index",:to="'/article/keyword='+item.keyword", :class="currentKeyword == item.keyword ? 'active' : ''") 
+            i.icon(:class="item.icon")
+            span {{item.keyword}}
+    backtotop(v-if="isBackTopDisplay")
 </template>
 
 <script>
 import Browser from '@/common/browser'
-
+import BackToTop from '@/components/backtop'
 export default {
   name: 'app',
+  components: {
+    "backtotop": BackToTop
+  },
   data() {
     return {
       isMenuDisplay: true,
+      isBackTopDisplay: false,
       isMobile: Browser.mobile,
       category: 'home',
       top10Articles: [],
@@ -76,13 +81,23 @@ export default {
   },
   mounted: function() {
     this.isMobile = Browser.mobile
+    //如果是移动端，就不显示Menu
     if (this.isMobile) {
       this.isMenuDisplay = false
     }
+    //load app datas
     this.getTop10Article();
     this.getHotKeywords();
   },
   methods: {
+    handleScroll() {
+      if (document.body.scrollTop > 20) {
+        this.isBackTopDisplay = true;
+      }
+      else {
+        this.isBackTopDisplay = false;
+      }
+    },
     toggleMenu() {
       this.isMenuDisplay = !this.isMenuDisplay;
     },
@@ -95,10 +110,8 @@ export default {
   },
   watch: {
     "$route"() {
-      if (this.$route.params.category)
-        this.category = this.$route.params.category;
-      if (this.$route.params.keyword)
-        this.currentKeyword = this.$route.params.keyword;
+      this.category = this.$route.params.category;
+      this.currentKeyword = this.$route.params.keyword
 
       if (this.isMobile) { //如果是移动端，关闭菜单
         this.isMenuDisplay = false;
@@ -440,7 +453,7 @@ $border-color:#d7d7d7;
   .item {
     padding: 10px;
     transition: background-color 0.5s;
-    display:block;
+    display: block;
     &:hover {
       background-color: $hover-color;
       cursor: pointer;
@@ -459,7 +472,7 @@ $border-color:#d7d7d7;
 
 .keywords {
   background-color: $back-secondary-color;
-  margin:0 auto;
+  margin: 0 auto;
   .title {
     font-weight: bold;
     font-size: 0.9em;
@@ -471,11 +484,11 @@ $border-color:#d7d7d7;
     padding: 10px;
     background-color: #f0f0f0;
     transition: background-color 0.5s;
-    font-size:0.8em;
-    margin-left:5px;
-    margin-top:5px;
-    &:last-child{
-      margin-bottom:5px;
+    font-size: 0.8em;
+    margin-left: 5px;
+    margin-top: 5px;
+    &:last-child {
+      margin-bottom: 5px;
     }
     &:hover {
       background-color: $hover-color;
