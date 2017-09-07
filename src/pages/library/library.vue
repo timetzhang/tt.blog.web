@@ -41,6 +41,18 @@ export default {
       isMobile: Browser.mobile
     }
   },
+  mounted: async function() {
+    let data = await this.$db.searchBook(this, {
+      search: ".",
+      pagenum: this.currentPage,
+      pagesize: this.pageSize
+    })
+    // format the date and push
+    data.forEach(function(element) {
+      element.time = Datetime.dateFormat(element.time)
+      this.books.push(element);
+    }, this);
+  },
   methods: {
     async searchBook() {
       let data = []
@@ -56,7 +68,6 @@ export default {
       }
       else {
         // format the date and push
-        console.log(data)
         data.forEach(function(element) {
           element.time = Datetime.dateFormat(element.time)
           this.books.push(element);
