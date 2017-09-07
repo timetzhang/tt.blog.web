@@ -18,3 +18,7 @@ pre {
     overflow: auto;
     word-break: break-all;
 }
+
+.clear {
+    clear: both;
+}

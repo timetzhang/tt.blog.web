@@ -1,11 +1,20 @@
 <template lang="jade">
   div
-    .article
+    loading(v-if="isLoading")
+    .article(v-if="!isLoading")
       .name {{article.details.name}}
       .time {{article.details.time}}
       .details(v-html="article.details.details")
+      .route
+        a.prev(:href='"/article/id="+article.prev._id', v-if="article.prev") 
+          span.label <<上一篇 
+          span {{article.prev.name}}
+        a.next(:href='"/article/id="+article.next._id', v-if="article.next") 
+          span {{article.next.name}}
+          span.label  下一篇>>
+      .clear
     br
-    .comment
+    .comment(v-if="!isLoading")
       div.header Comments ({{article.comments.length}})
       div(v-for="comment in article.comments",:key="comment.id")
         .name {{comment.username}}
@@ -14,7 +23,7 @@
           span {{comment.time}}
         .details {{comment.details}}
     br
-    .reply
+    .reply(v-if="!isLoading")
       .header Please wrote your comment
       .input
         input(type="text",placeholder="Name", style="width:97%", v-model="newComment.username")
@@ -29,9 +38,13 @@
 
 <script>
 import Datetime from '@/common/datetime'
+import Loading from '@/components/loading'
 
 export default {
   name: 'article-details',
+  components: {
+    "loading": Loading
+  },
   data() {
     return {
       article: { details: {}, comments: [] },
@@ -41,6 +54,7 @@ export default {
         details: '',
         id: this.$route.params.id
       },
+      isLoading: true
     }
   },
   created: function() {
@@ -48,11 +62,13 @@ export default {
   },
   methods: {
     async getArticle() {
+      this.isLoading = true;
       this.article = await this.$db.getArticleDetails(this, { id: this.$route.params.id })
       this.article.details.time = Datetime.dateFormat(this.article.details.time)
       this.article.comments.forEach(function(element) {
         element.time = Datetime.getTimespan(element.time)
       }, this);
+      this.isLoading = false;
     },
     async submit() {
       if (this.newComment.username && this.newComment.email && this.newComment.details) {
@@ -97,6 +113,22 @@ export default {
   .details {
     line-height: 1.5em;
     font-size: 0.9em;
+  }
+  .route {
+    border-top: 1px solid $border-color;
+    padding-top: 15px;
+    font-size: 0.8em;
+    .prev {
+      float: left;
+      line-height: 2em;
+    }
+    .next {
+      float: right;
+      line-height: 2em;
+    }
+    .label {
+      color: $secondary-color;
+    }
   }
 }
 

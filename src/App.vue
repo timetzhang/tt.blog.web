@@ -57,12 +57,13 @@
           router-link.item(v-for="item,index in hotKeywords", :key="index",:to="'/article/keyword='+item.keyword", :class="currentKeyword == item.keyword ? 'active' : ''") 
             i.icon(:class="item.icon")
             span {{item.keyword}}
-    backtotop(v-if="isBackTopDisplay")
+    backtotop
 </template>
 
 <script>
 import Browser from '@/common/browser'
 import BackToTop from '@/components/backtop'
+
 export default {
   name: 'app',
   components: {
@@ -71,7 +72,6 @@ export default {
   data() {
     return {
       isMenuDisplay: true,
-      isBackTopDisplay: false,
       isMobile: Browser.mobile,
       category: 'home',
       top10Articles: [],
@@ -90,14 +90,6 @@ export default {
     this.getHotKeywords();
   },
   methods: {
-    handleScroll() {
-      if (document.body.scrollTop > 20) {
-        this.isBackTopDisplay = true;
-      }
-      else {
-        this.isBackTopDisplay = false;
-      }
-    },
     toggleMenu() {
       this.isMenuDisplay = !this.isMenuDisplay;
     },
