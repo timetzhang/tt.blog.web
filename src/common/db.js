@@ -136,6 +136,19 @@ export default {
             }
         );
     },
+    searchOnlineBook(obj, options) {
+        return new Promise(
+            function(resolve) {
+                let dbUrl = Config.dbUrl + '/book/searchOnlineBook?search=' + options.search;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
     newBook(obj, data) {
         return new Promise(
             function(resolve) {

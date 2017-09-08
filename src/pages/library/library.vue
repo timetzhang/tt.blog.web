@@ -21,6 +21,7 @@
               i.icon.yen
               span {{item.price}}
         .brief SUBJECT: {{item.subject}} / TYPE: {{item.type}} / ISBN: {{item.isbn}}
+        .brief PUBLISHER: {{item.publisher}} / AUTHOR: {{item.author}} / YEAR: {{item.year}}
     .center.aligned
       button.flat-button(@click="getMoreBook", style="margin-bottom: 20px") {{loadingMoreText}}
 </template>
