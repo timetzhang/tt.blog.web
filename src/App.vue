@@ -32,7 +32,11 @@
             i.icon.coffee.large
             span.text Misc
           .divider
-          router-link.item(to="/library") 
+          router-link.item(to="/word_origin", :class="currentPage == 'word_origin' ? 'active' : ''") 
+            i.icon.header.large
+            span.text Word Origins
+          .divider
+          router-link.item(to="/library", :class="currentPage == 'library' ? 'active' : ''") 
             i.icon.book.large
             span.text Library
           .divider
@@ -76,7 +80,8 @@ export default {
       category: 'home',
       top10Articles: [],
       hotKeywords: [],
-      currentKeyword: ''
+      currentKeyword: '',
+      currentPage: '',
     }
   },
   mounted: function() {
@@ -102,9 +107,9 @@ export default {
   },
   watch: {
     "$route"() {
-      this.category = this.$route.params.category;
+      this.category = this.$route.params.category
       this.currentKeyword = this.$route.params.keyword
-
+      this.currentPage = this.$route.path.split('/')[1]
       if (this.isMobile) { //如果是移动端，关闭菜单
         this.isMenuDisplay = false;
       }

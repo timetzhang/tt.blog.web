@@ -36,6 +36,11 @@ export default new Router({
             component: (resolve) => { require(['@/pages/article/edit.vue'], resolve) }
         },
         {
+            path: '/word_origin',
+            name: 'word_origin',
+            component: (resolve) => { require(['@/pages/word_origin/word_origin.vue'], resolve) }
+        },
+        {
             path: '/library',
             name: 'library',
             component: (resolve) => { require(['@/pages/library/library.vue'], resolve) }
