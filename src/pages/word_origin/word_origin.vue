@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       words: [],
-      search: '',
+      search: '.',
       currentPage: 0,
       pageSize: 10,
       loadingMoreText: '点击载入更多',
@@ -99,7 +99,7 @@ export default {
     text-transform: capitalize;
   }
   .details {
-    width: calc(100% - 10% - 30px);
+    width: calc(100% - 30px);
     .content {}
   }
 }

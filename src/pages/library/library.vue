@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       books: [],
-      search: '',
+      search: '.',
       currentPage: 0,
       pageSize: 10,
       loadingMoreText: '点击载入更多',
